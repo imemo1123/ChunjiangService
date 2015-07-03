@@ -1,0 +1,29 @@
+@CHARSET "UTF-8";
+* { border: 0; margin: 0; padding: 0; }
+body { background:#f5f5f5;color:#666; font:400 12px/1.5 Arial;}
+h2 { font-size:16px; }
+a:link, a:visited {color:#666; text-decoration: none; }
+a:hover { text-decoration:underline; color:#31b2ff;}
+ul,li{ list-style:none;}
+.clear { clear: both; }
+.clearfix:after{ content:""; display:block;visibility:hidden; height:0; clear:both;}
+.clearfix {zoom:1;}
+.main {float:left; width:98%;margin-bottom:20px}
+.mainBox{ width:100%;padding:0 15px;  background:#fff;}
+.main ul li { list-style:none; }
+.main .post, .main .left { margin-top:10px; }
+#sidebar { float:right; width:300px;}
+#sidebar li ul {}
+#sidebar li ul li { }
+#sidebar li ul.children li, #sidebar li ul.children li ul li {  background: url(images/tier.gif) 6px 5px no-repeat; }
+.indexPicBox{ width:100%; background:#fff; }
+.hotPic{ width:100%; height:100px; position:relative; overflow:hidden;}
+.hotPic .num{ position:absolute;right:0; bottom:0; z-index:10;width:100%; padding-right:8px; height:30px; text-align:right;}
+.hotPic .num span{ width:20px; height:20px; display:inline-block; line-height:20px; font-size:14px; text-align:center; margin:5px 2px 0; cursor:pointer; background:#222; color:#fff;}
+.hotPic .num span.cur{ background:#54BFFF;color:#fff;}
+.hotPic .pic{ position:relative; z-index:5;}
+.hotPic .pic li{ position:absolute; display:none;}
+.hotPic .pic li img{ width:100%; height:100px; display:block;}
+.hotPic .text{ position:absolute;bottom:0; left:10px; z-index:12; width:520px;height:30px; line-height:30px; overflow:hidden;font-family:Microsoft YaHei;}
+.hotPic .text p{ position:absolute; display:none; color:#fff; font-weight:800; font-size:15px;}
+.hotPic ul { margin:0;}
