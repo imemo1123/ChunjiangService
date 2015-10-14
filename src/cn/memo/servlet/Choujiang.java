@@ -1,6 +1,8 @@
 package cn.memo.servlet;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -9,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import cn.memo.handle.ChoujiangHandle;
+import cn.memo.handle.MyHandle;
 import cn.memo.json.JsonHandle;
 import cn.memo.net.WeChatHttp;
 
@@ -36,6 +39,11 @@ public class Choujiang extends HttpServlet {
 		HttpSession session=request.getSession();
 		String subscribe  = (String) session.getAttribute("subscribe");
 		String openid = (String) session.getAttribute("openid");
+		String area = MyHandle.nvl(request.getParameter("area"),"1");
+		request.setAttribute("area", area);
+		String intros = ChoujiangHandle.getChoujiangIntro(area);
+		request.setAttribute("intros", intros);
+		
 		if(openid == null || subscribe==null || !subscribe.equals("1")){
 			String id = request.getParameter("code");
 			if(id == null){
@@ -57,7 +65,7 @@ public class Choujiang extends HttpServlet {
 		        
 		}
 		if("1".equals(subscribe)){
-	        	String jieguo  = ChoujiangHandle.choujiang(openid);
+	        	String jieguo  = ChoujiangHandle.choujiang(openid,area);
 	        	System.out.println(jieguo);
 	        	request.setAttribute("jieguo", jieguo);
 	        }else{

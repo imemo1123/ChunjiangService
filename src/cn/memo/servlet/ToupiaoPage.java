@@ -51,7 +51,7 @@ public class ToupiaoPage extends HttpServlet {
 		ArrayList<String> adList = PageHandle.getAdList(area);
 		request.setAttribute("adList", adList);
 		
-		request.getRequestDispatcher("/wechat/showList1.jsp").forward(request, response);
+		request.getRequestDispatcher("/hua/showList.jsp").forward(request, response);
 	}
 
 	/**

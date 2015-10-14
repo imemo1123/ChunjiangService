@@ -10,7 +10,7 @@ import java.util.Map;
 import cn.memo.sql.SQLConnection;
 
 public class ChoujiangHandle {
-	public static String choujiang(String openid ) {
+	public static String choujiang(String openid ,String area) {
 		SQLConnection connection = new SQLConnection();
 		SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");//设置日期格式
 		String date= df.format(new Date());// new Date()为获取当前系统时间
@@ -32,7 +32,7 @@ public class ChoujiangHandle {
 				return "-1|"+id+"|" + m.get("pic")+"|"+m.get("jiangping")+"|"+code+"|"+connection.checkExist(sqlString3);
 			}
 		}else{
-			sqlString = "select id,jiangping,chance,pic,num,date,dnum,intro from choujiang where enddate > '" + date+"'  order by id;" ;
+			sqlString = "select id,jiangping,chance,pic,num,date,dnum,intro from choujiang where area='"+area+"' and enddate > '" + date+"'  order by id;" ;
 			System.out.println(sqlString);
 			List<Map<String, String>> rst = new ArrayList<Map<String,String>>();
 			ArrayList<String> tabList = new ArrayList<String>();
@@ -74,7 +74,7 @@ public class ChoujiangHandle {
 			return "0";
 		}
 	}
-	public static int zhongjiang(String openid,String id,String tel,String code) {
+	public static int zhongjiang(String openid,String id,String tel,String code,String name,String area) {
 		SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");//设置日期格式
 		String date= df.format(new Date());// new Date()为获取当前系统时间
 		SQLConnection connection = new SQLConnection();
@@ -85,11 +85,37 @@ public class ChoujiangHandle {
 			System.out.println(updatesql);
 			connection.executeUpdate(updatesql);
 			
-			String insertsql = "insert into zhongjiang(openid,tel,id,date,code) values('"+openid+"','"+tel+"','"+id+"','"+date+"','"+code+"');";
+			String insertsql = "insert into zhongjiang(openid,tel,id,date,code,name,area) values('"+openid+"','"+tel+"','"+id+"','"+date+"','"+code+"','"+name+"','"+area+"');";
 			System.out.println(insertsql);
 			connection.executeUpdate(insertsql);
 			return 0;
 		}
 		return -1;
 	}
+	
+	public static String getChoujiangIntro(String area) {
+		SQLConnection connection = new SQLConnection();
+		String sqlString = "select intro from choujiang_intro where area='1'";
+		String introString = connection.getOneValue(sqlString, "intro");
+		return introString;
+	}
+	
+	
+	public static void saveChoujiang(String num){
+		SQLConnection cn = new SQLConnection();
+		String sql = "insert into zhongjiang2(num) values('"+num+"');";
+		cn.executeUpdate(sql);
+	}
+	
+	public static ArrayList<Map<String,String>> getLaohuji() {
+		SQLConnection cn = new SQLConnection();
+		String sql = "select num, class from zhongjiang2";
+		ArrayList<Map<String,String>> rst = new ArrayList<Map<String,String>>();
+		ArrayList<String> tabNames = new ArrayList<String>();
+		tabNames.add("num");
+		tabNames.add("class");
+		rst = (ArrayList<Map<String, String>>) cn.queryMulData(sql, tabNames);
+		return rst;
+	}
+	
 }

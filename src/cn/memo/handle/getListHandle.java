@@ -1,6 +1,7 @@
 package cn.memo.handle;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -86,8 +87,8 @@ public class getListHandle {
 	}
 	
 	public static Map<String,String> search(String val){
-		String sqlString1 = "select a.id,a.name,a.pic,IFNULL(b.pocard,0) as pocard from baby a left join pocard b on a.id=b.id where ischeck=1 and a.id='"+val+"';";
-		String sqlString2 = "select a.id,a.name,a.pic,IFNULL(b.pocard,0) as pocard from baby a left join pocard b on a.id=b.id where ischeck=1 and a.name like'"+val+"';";
+		String sqlString1 = "select a.id,a.name,a.pic,a.area ,IFNULL(b.pocard,0) as pocard from baby a left join pocard b on a.id=b.id where ischeck=1 and a.id='"+val+"';";
+		String sqlString2 = "select a.id,a.name,a.pic,a.area ,IFNULL(b.pocard,0) as pocard from baby a left join pocard b on a.id=b.id where ischeck=1 and a.name like '%"+val+"%';";
 		System.out.println(sqlString1);
 		System.out.println(sqlString2);
 		SQLConnection conn = new SQLConnection();
@@ -97,18 +98,28 @@ public class getListHandle {
 			tabList.add("id");
 			tabList.add("name");
 			tabList.add("pic");
+			tabList.add("area");
 			tabList.add("pocard");
 			Map map = conn.querySingleData(sqlString1, tabList);
-			return map;
+			String area = (String)map.get("area");
+			//if(checkArea(area) )
+				return map;
+			//else
+			//	return null;
 		}else if(conn.checkExist(sqlString2)) {
 			System.out.println(sqlString2);
 			List<String> tabList = new ArrayList<String>();
 			tabList.add("id");
 			tabList.add("name");
 			tabList.add("pic");
+			tabList.add("area");
 			tabList.add("pocard");
 			Map map = conn.querySingleData(sqlString2, tabList);
-			return map;
+			String area = (String)map.get("area");
+			//if(checkArea(area) )
+				return map;
+			//else
+			//	return null;
 		}else {
 			return null;
 		}
@@ -124,4 +135,18 @@ public class getListHandle {
 		return sList;
 	}
 	
+	
+	private static boolean checkArea(String area) {
+		SQLConnection connection = new SQLConnection();
+		String sqlString = "select id from area;";
+		List<Map<String,String>> list = new ArrayList<Map<String,String>>();
+		List<String> tabList = new ArrayList<String>();
+		tabList.add("id");
+		list = connection.queryMulData(sqlString, tabList);
+		for (String string : tabList) {
+			if(area.equals(string))
+				return true;
+		}
+		return false;
+	}
 }

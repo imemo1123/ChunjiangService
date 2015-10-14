@@ -15,7 +15,7 @@ public class PageHandle {
 		Map map = conn.querySingleData(sqlString, tabList);
 		String vString = (String)map.get("valu");
 		int vint = Integer.parseInt(vString);
-		vint++;
+		vint+=3;
 		
 		String updateString = "update params set valu='"+vint+"' where name='acc_count';";
 		System.out.println(updateString);

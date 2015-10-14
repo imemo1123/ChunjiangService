@@ -38,7 +38,9 @@ public class Duijiang extends HttpServlet {
 		String id = request.getParameter("id");
 		String code = request.getParameter("code");
 		String tel = request.getParameter("tel");
-		int rst = ChoujiangHandle.zhongjiang(openid, id, tel, code);
+		String name = request.getParameter("name");
+		String area = request.getParameter("area");
+		int rst = ChoujiangHandle.zhongjiang(openid, id, tel, code,name,area);
 		PrintWriter out = response.getWriter();
 		out.print(rst);
 		out.flush();

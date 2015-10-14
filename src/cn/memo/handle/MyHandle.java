@@ -6,7 +6,13 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.catalina.util.Base64;
+
+import cn.memo.sql.SQLConnection;
 
 public class MyHandle {
 	public static String nvl(String v,String w) {
@@ -48,10 +54,7 @@ public class MyHandle {
 		return result;
 	}
 	
-	public static void main(String[] args) {
-		String string = MyHandle.getBASE64fromImgPath("/images/topbar.jpg");
-		System.out.println(string);
-	}
+	
 	
 	public static String getDate(String fmt) {
 		SimpleDateFormat df = new SimpleDateFormat(fmt);//设置日期格式
@@ -60,5 +63,29 @@ public class MyHandle {
 	public static String getDate() {
 		return getDate("yyyyMMddHHmmss");//设置日期格式
 	}
+	
+	
+	
+	
+	public static String getSeq(){
+		SQLConnection connection = new SQLConnection();
+		String sqlString = "update params set valu   =  last_insert_id(valu+1) where name='order_seq';";
+		connection.executeUpdate(sqlString);
+		String seq = connection.getOneValue("select valu from params  where name='order_seq';", "valu");
+		return seq;
+	}
+	
+	public static String getRemortIP(HttpServletRequest request) {
+		if (request.getHeader("x-forwarded-for") == null) { 
+			return request.getRemoteAddr(); 
+		} 
+		return request.getHeader("x-forwarded-for"); 
+	} 
+	
+	
+	
+	public static void main(String[] args) {
+	}
+	
 	
 }

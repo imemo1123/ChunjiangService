@@ -1,8 +1,14 @@
 eclipse.preferences.version=1
+encoding//WebContent/404.jsp=UTF-8
+encoding//WebContent/b2c/a.html=UTF-8
+encoding//WebContent/b2c/buysucc.jsp=UTF-8
 encoding//WebContent/choujiang.jsp=UTF-8
+encoding//WebContent/intro.jsp=UTF-8
+encoding//WebContent/random.jsp=UTF-8
 encoding//WebContent/result.jsp=UTF-8
 encoding//WebContent/toupiao.jsp=UTF-8
 encoding//WebContent/web/introduce.jsp=UTF-8
 encoding//WebContent/web/registration.jsp=UTF-8
 encoding//WebContent/wechat/duijiangDiag.jsp=UTF-8
 encoding//WebContent/wechat/nobody.jsp=UTF-8
+encoding//WebContent/wechat/paihangbang.jsp=UTF-8

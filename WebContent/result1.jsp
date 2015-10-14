@@ -1,18 +1,18 @@
  <%@ page contentType="text/html;charset=UTF-8"%>
   <%
-/*
+
   String pic = (String)request.getAttribute("pics");
  String name  = (String)request.getAttribute("name");
  String tel  = (String)request.getAttribute("tel");
  String wechat  = (String)request.getAttribute("wechat");
  String rst = (String) request.getAttribute("rst");
- */
+ /*
  String pic = "";
  String name="aa";
  String wechat ="33";
  String tel="22";
  String rst="0";
- 
+ */
  %>
 <html>
 <meta charset="UTF-8">

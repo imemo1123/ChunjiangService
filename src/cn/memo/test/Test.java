@@ -18,6 +18,7 @@ import javax.servlet.ServletInputStream;
 
 import org.json.simple.JSONObject;
 
+import cn.memo.handle.B2CHandle;
 import cn.memo.json.JsonHandle;
 import cn.memo.net.HttpRequest;
 
@@ -64,5 +65,10 @@ public class Test {
 				break;
 			}
 		}
+		
+		
+		String total_fee = "100.01";
+	        String fmt_fee = (int)(Float.parseFloat(total_fee) * 100) +"";
+	        System.out.println(fmt_fee);
 	}
 }

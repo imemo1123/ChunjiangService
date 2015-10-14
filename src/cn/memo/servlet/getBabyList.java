@@ -37,7 +37,7 @@ public class getBabyList extends HttpServlet {
 		response.setContentType("text/html;charset=UTF-8");
 		String index = MyHandle.nvl(request.getParameter("index"),"0");
 		System.out.println(index);
-		String area = MyHandle.nvl(request.getParameter("area") , "0");
+		String area = MyHandle.nvl(request.getParameter("area") , "1");
 		HttpSession session = request.getSession();
 		//session.setAttribute("area", area);
 		int vn = PageHandle.visit();

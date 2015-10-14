@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import cn.memo.handle.ChoujiangHandle;
+import cn.memo.handle.MyHandle;
 import cn.memo.json.JsonHandle;
 import cn.memo.net.WeChatHttp;
 
@@ -37,8 +38,12 @@ public class ChoujiangPage extends HttpServlet {
 		String subscribe  ="1";
 		String openid = "1124";
 		session.setAttribute("openid", openid);
+		String area = MyHandle.nvl(request.getParameter("area"),"1");
+		request.setAttribute("area", area);
+		String intros = ChoujiangHandle.getChoujiangIntro(area);
+		request.setAttribute("intros", intros);
 		if("1".equals(subscribe)){
-	        	String jieguo  = ChoujiangHandle.choujiang(openid);
+	        	String jieguo  = ChoujiangHandle.choujiang(openid,area);
 	        	System.out.println(jieguo);
 	        	request.setAttribute("jieguo", jieguo);
 	        }else{

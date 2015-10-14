@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import cn.memo.servlet.setEnable;
 import cn.memo.sql.SQLConnection;
 
 public class ToupiaoHandel {
@@ -61,5 +62,21 @@ public class ToupiaoHandel {
 		System.out.println(sql4);
 		connection.executeUpdate(sql4);
 
+	}
+	
+	public static void setEnable(String openid) {
+		SQLConnection connection = new SQLConnection();
+		String sql = "insert into enable_flow(openid) values ('"+openid+"');";
+		connection.executeUpdate(sql);
+	}
+	
+	public static String getEnable(String openid) {
+		SQLConnection connection = new SQLConnection();
+		String sql = "select * from enable_flow where openid = '"+openid+"';";
+		if( connection.checkExist(sql))
+			return "1";
+		else
+			return "0";
+	
 	}
 }

@@ -2,6 +2,8 @@
 <%@page import="java.util.Map"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="cn.memo.handle.JSPHandle"%>
+
+<%@ include file="head.jsp" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%
@@ -13,17 +15,26 @@
     String subscribe = (String) session.getAttribute("subscribe");
     String vn = (String)request.getAttribute("vn");
     String un = (String)request.getAttribute("un");
+    String una = (String)request.getAttribute("una");
     String pn = (String)request.getAttribute("pn");
     ArrayList list = (ArrayList)request.getAttribute("list");
     JSPHandle handle = new JSPHandle();
     ArrayList<String> adList = (ArrayList<String>)request.getAttribute("adList");
     
-    String path = request.getContextPath();
-    String basePath =  request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+"/images/";
+    //String path = request.getContextPath();
+    //String basePath =  request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+"/images/";
     //basePath = basePath + "images/";
     //out.print(rst);
     
     %>
+<!DOCTYPE html>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<title>中美篮球对抗赛篮球宝贝</title>
+
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -36,28 +47,23 @@
 <meta content="telephone=no" name="format-detection" />
 <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no,minimum-scale=1.0,maximum-scale=1.0" />
 <link href="http://res.data.mvote.net/css/bootstrap.css" rel="stylesheet" media="screen">
-<link rel="stylesheet" href="/css/font-awesome.min.css" >
-<link href="/js/webix/skins/touch.css" rel="stylesheet" media="screen">
 <link href="http://res.data.mvote.net/css/style.css?ver=118" rel="stylesheet" media="screen">
 <link href="http://res.data.mvote.net/css/wapstyle.css?ver=118" rel="stylesheet" media="screen">
 
-<link href="/css/votestyle.css?ver=118" rel="stylesheet" media="screen">
-<link href="/favicon.ico" type="image/x-icon" rel=icon>
-<link href="/favicon.ico" type="image/x-icon" rel="shortcut icon">
-<script src="http://res.data.mvote.net/js/jquery.js"></script>
 
-<script src="http://res.data.mvote.net/js/config.js?ver=118"></script>
-<script src="http://res.data.mvote.net/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="http://dup.baidustatic.com/js/zm.js"></script>
+<script type="application/javascript" src="<%=basePath %>js/jquery.js"></script>
+<script type="text/javascript" src="<%=basePath %>js/zDrag.js"></script>
+<script type="text/javascript" src="<%=basePath %>js/zDialog.js"></script>
+<script type="text/javascript" src="<%=basePath %>js/wxvote.js"></script>
+<link href="<%=basePath %>css/mycss.css" rel="stylesheet" media="screen">
 
 
-<script type="text/javascript" src="js/zDrag.js"></script>
-<script type="text/javascript" src="js/zDialog.js"></script>
-<script type="text/javascript" src="js/wxvote.js"></script>
+<link href="<%=basePath %>css/banner.css" rel="stylesheet" type="text/css"/>
 
 
-<link href="../css/banner.css" rel="stylesheet" type="text/css"/>
-<script>
+<script type="text/javascript">
+
+
 
 function createXmlHttpRequest(){
     if(window.XMLHttpRequest){
@@ -125,7 +131,8 @@ function finish(){
     		diag.cancelButton.value="取消，继续浏览";
     		diag.okButton.onclick = function(){
     				diag.close();
-    				window.location="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx7cc0fb85783397ef&redirect_uri=http%3a%2f%2fmemoandfriends.sinaapp.com%2fchoujiang&response_type=code&scope=snsapi_base&state=1#wechat_redirect";  
+    				var area = document.getElementById("areaS").value;
+    				window.location="../choujiang?area="+area;  
     		};
         }
     }
@@ -137,19 +144,29 @@ function baoming(){
 var nnum,tnum;
 function init(){
 	nnum = 10;
-	tnum = parseInt("<%=un%>");
+	tnum = parseInt("<%=una%>");
 	var areaobj = document.getElementById("areaS");
 	areaobj.value = "<%=area%>";
 	areaobj.onchange = function (){
 		//alert(areaobj.value);
 		var areavalue = areaobj.value;
-		window.location="getWeiChatInfo?&area="+areavalue;
+		window.location="ChangeArea?&area="+areavalue;
 	}
 }
 
 
+function go(){
+	document.searchForm.submit();
+}
+/*
+function init(){
+	alert(1);
+	$.post("../getNews",{} , function(json){
+		alert(json);
+	},"json");
+	
+}*/
 </script>
-
 <style>
 .buttonStyle{
 	background:#3498db;
@@ -165,7 +182,6 @@ function init(){
 </div>
 
 </head>
-
 <body class="weixinstyle" onload="init()">
 
 
@@ -218,7 +234,7 @@ function init(){
 				</ul>
 			</div>
 
-<!--轮播结束--></a>
+<!--轮播结束-->
 		</div>
 	</div>
 	<div style="clear:both"></div>
@@ -252,52 +268,48 @@ function init(){
 4.以上获奖人员均可获得组委会颁发的荣誉证书。
 </div>
 
+<div align="center">
+<form name="searchForm" method="post" action="searchForDetail">
+<input id="val" name="val"  type = "text" class="searchInput" style="width:60%" placeholder="输入选手编号或者姓名搜索">
+<input  class="btn btn-info wxvotebutton" type="button"  onclick="go()" value="搜索"  style="width:100px;vertical-align:middle;margin-top: 6px;margin-bottom: 10px;"/>
+</form>
+</div>
 
 	<div class='voteoplist' >
-		<div class='plistleft leftoptions ' >
-	<%for(int i=0;i<list.size();i++){
-		Map m = (HashMap)list.get(i);
-		String name = (String)m.get("name");
-		String id = (String)m.get("id");
-		String pic = (String)m.get("pic");
-		String pocard = (String)m.get("pocard");
-		String classString = "";
-		if(i%2==0){
-			
+		<div id="plistleft" class='plistleft leftoptions ' >
+		<%
+		for(int i=0;i<list.size();i++){
+			Map m = (HashMap)list.get(i);
+			String name = (String)m.get("name");
+			String id = (String)m.get("id");
+			String pic = (String)m.get("pic");
+			String pocard = (String)m.get("pocard");
+			String classString = "";
+			if(i%2==0){
 		%>
-							<div class='wxop' >
-									<div class='wxopimg '>
-										<a href="wechat/showDetail.jsp?id=<%=id%>&pic=<%=pic %>&name=<%=name%>&pocard=<%=pocard%>&openid=<%=openid%>&subscribe=<%=subscribe%>">
-					<img src="<%=pic %>"  name="1"  />
-					</a>
-										</div>
-								
-				
-								
-				<div class='wxoptxt'>
-								<a href="wechat/showDetail.jsp?id=<%=id%>&pic=<%=pic%>&name=<%=name%>&pocard=<%=pocard%>&openid=<%=openid%>&subscribe=<%=subscribe%>">
-				<%=id+"."+name %>
-				</a>
-								
-								
-				</div>
-				<div class='wxopvotediv'>
-					
-					<div class='wxvbtn'>
-					<button class='btn btn-info wxvotebutton'  name='669161'  onclick="toupiao(<%=id%>)"><i class='icon-thumbs-up'></i> 投票</button></div>
-					
-					<div class='wxvinfo' id='wxinfo_669161'>
-																		<span id="pocard_<%=id%>"><%=pocard %></span>票
-																	</div>	
-				
+			<div class='wxop' >
+					<div class='wxopimg '>
+							<a href="wechat/showDetail.jsp?id=<%=id%>&pic=<%=pic %>&name=<%=name%>&pocard=<%=pocard%>&openid=<%=openid%>&subscribe=<%=subscribe%>">
+								<img src="<%=pic %>"  name="1"  />
+							</a>
+					</div>
+					<div class='wxoptxt'>
+							<a href="wechat/showDetail.jsp?id=<%=id%>&pic=<%=pic%>&name=<%=name%>&pocard=<%=pocard%>&openid=<%=openid%>&subscribe=<%=subscribe%>">
+								<%=id+"."+name %>
+							</a>
+					</div>
+					<div class='wxopvotediv'>
+						<div class='wxvbtn'>
+							<button class='btn btn-info wxvotebutton'  name='669161'  onclick="toupiao(<%=id%>)"><i class='icon-thumbs-up'></i> 投票</button>
+						</div>
+						<div class='wxvinfo' id='wxinfo_669161'>
+							<span id="pocard_<%=id%>"><%=pocard %></span>票
+						</div>	
 				</div>
 			</div>
-			
-						
-	<%} }%>
-					
-	</div>
-	<div class='plistleft plistright rightoptions ' >
+		<%} }%>
+		</div>
+	<div  id="plistright" class='plistleft plistright rightoptions ' >
 	<%for(int i=0;i<list.size();i++){
 		Map m = (HashMap)list.get(i);
 		String name = (String)m.get("name");
@@ -308,53 +320,39 @@ function init(){
 		if(i%2==1){
 			
 		%>
-							<div class='wxop' >
-									<div class='wxopimg '>
-										<a href="wechat/showDetail.jsp?id=<%=id%>&pic=<%=pic %>&name=<%=name%>&pocard=<%=pocard%>&openid=<%=openid%>&subscribe=<%=subscribe%>">
-					<img src="<%=pic %>"  name="1"  />
+			<div class='wxop' >
+				<div class='wxopimg '>
+					<a href="wechat/showDetail.jsp?id=<%=id%>&pic=<%=pic %>&name=<%=name%>&pocard=<%=pocard%>&openid=<%=openid%>&subscribe=<%=subscribe%>">
+						<img src="<%=pic %>"  name="1"  />
 					</a>
-										</div>
-								
-				
-								
+				</div>
 				<div class='wxoptxt'>
-								<a href="wechat/showDetail.jsp?id=<%=id%>&pic=<%=pic%>&name=<%=name%>&pocard=<%=pocard%>&openid=<%=openid%>&subscribe=<%=subscribe%>">
-				<%=id+"."+name %>
-				</a>
-								
-								
+					<a href="wechat/showDetail.jsp?id=<%=id%>&pic=<%=pic%>&name=<%=name%>&pocard=<%=pocard%>&openid=<%=openid%>&subscribe=<%=subscribe%>">
+						<%=id+"."+name %>
+					</a>
 				</div>
 				<div class='wxopvotediv'>
-					
 					<div class='wxvbtn'>
-					<button class='btn btn-info wxvotebutton'  name='669161'  onclick="toupiao(<%=id%>)"><i class='icon-thumbs-up'></i> 投票</button></div>
-					
+						<button class='btn btn-info wxvotebutton'  name='669161'  onclick="toupiao(<%=id%>)"><i class='icon-thumbs-up'></i> 投票</button>
+					</div>
 					<div class='wxvinfo' id='wxinfo_669161'>
-																		<span id="pocard_<%=id%>"><%=pocard %></span>票
-																	</div>	
-				
+							<span id="pocard_<%=id%>"><%=pocard %></span>票
+					</div>	
 				</div>
-			</div>
-			
-						
+			</div>	
 	<%} }%>
 					
 	</div>
 	</div>
 </div>
-
-<div style='text-align:center' id='loadmorebtn'>
-<button class='btn btn-info' type='button'>加载更多</button>
 </div>
-<div class='loadingpagealert'>
+<div style="clear:both"></div>
+
+<div id='loadingpagealert' style="width:100%;display:none">
 <img src='/images/loading.gif'> 正在加载更多选手请稍后...
 </div>
 
 <input type='hidden' value="" name="wxparam" id="wxparam" />
-
-<div class='wapalert'>
-	<p>投票成功</p>
-</div>
 
 <div id="chenggong" style="background:white;padding:10px 20px; display:none" align="left">
 	<div class=''>
@@ -368,6 +366,7 @@ function init(){
 //焦点图
 $(function(){
 	var sw = 0;
+	myShow(sw);
 	$(".hotPic .num span").mouseover(function(){
 		sw = $(".hotPic .num span").index(this);
 		myShow(sw);
@@ -387,26 +386,77 @@ $(function(){
 		  myShow(sw);
 		  sw++;
 		  if(sw==$(".hotPic .pic li").length){sw=0;}
-		} , 3000);
+		} , 1500);
 	});
 	//自动开始
 	var myTime = setInterval(function(){
 	   myShow(sw);
 	   sw++;
 	   if(sw==$(".hotPic .pic li").length){sw=0;}
-	} , 3000);
+	} , 1500);
 });
 
-
+var loadpagedone = false;
+var loadingpage = false;
 window.onscroll=function(){
-	if (getScrollTop()+getClientHeight()>=getScrollHeight()){
-		alert(3);
-		showWxOptionListMore(guid);
+	if(nnum < tnum){
+		if (getScrollTop()+getClientHeight()==getScrollHeight()){
+				//alert(3);
+				//var area = document.getElementById("areaS").value;
+				var area="<%=area%>"
+				getMore(nnum,area);
+		}
 	}
 	else
 	{
-		$("#loadmorebtn").hide();
+		$("#loadingpagealert").hide();
 	}
+}
+
+function getMore(_index,_area){
+	if(loadpagedone)
+		return false;
+	if(loadingpage)
+		return false;
+	loadingpage = true;
+
+	$("#loadingpagealert").show();
+	$.post("../getBabyList",{area:_area,index:_index} , function(json){
+		//alert(json);
+		$(".loadingpagealert").hide();
+		nnum += json.length;
+		for(var i=0;i<json.length;i++){
+			if(i%2 == 0){
+				var optdiv = getWxOptionBox(json[i]);
+        		$("#plistleft").append(optdiv);
+			}else{
+				var optdiv = getWxOptionBox(json[i]);
+        		$("#plistright").append(optdiv);
+			}
+		}
+		loadingpage = false;
+		$("#loadingpagealert").hide();
+	},"json");
+}
+
+function getWxOptionBox (json){
+	var _url =  "wechat/showDetail.jsp?id="+json.id+"&pic="+json.pic+"&name="+json.name+"&pocard="+json.pocard;
+	var _div = "<div class='wxop '>";
+		_div += "<div class='wxopimg '>";
+			_div += "<a href='"+_url+"'>";
+			_div += "<img src='"+json.pic+"'  /></a>";
+		_div += "</div>";
+		
+		_div += "<div class='wxoptxt'>";
+			_div += "<a href='"+_url+"'>"+json.id+"."+json.name+"</a>";
+		_div += "</div>";
+		_div += "<div class='wxopvotediv'><div class='wxvbtn'>";
+		_div += "<button class='btn btn-info wxvotebutton'  onclick='toupiao("+json.id+")'><i class='icon-thumbs-up'></i> "+"投票"+"</button></div>";
+		_div += "<div class='wxvinfo'>";
+		_div += "<span id='pocard_"+json.id+"'>"+json.pocard+"</span>"+"票";
+		_div += "</div>";
+		_div += "</div></div>";
+		return _div;
 }
 	</script>
 

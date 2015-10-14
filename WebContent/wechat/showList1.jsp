@@ -8,7 +8,7 @@
     //String rst = (String)request.getAttribute("rst");
     String area = (String)request.getAttribute("area");
     if(area ==null || area.length()<=0)
-	    area =  "0";
+	    area =  "1";
     String openid=(String)session.getAttribute("openid");
     String subscribe = (String) session.getAttribute("subscribe");
     String vn = (String)request.getAttribute("vn");
@@ -129,7 +129,8 @@ function finish(){
     		diag.cancelButton.value="取消，继续浏览";
     		diag.okButton.onclick = function(){
     				diag.close();
-    				window.location="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx7cc0fb85783397ef&redirect_uri=http%3a%2f%2fmemoandfriends.sinaapp.com%2fchoujiang&response_type=code&scope=snsapi_base&state=1#wechat_redirect";  
+    				var area = document.getElementById("areaS").value;
+    				window.location="../choujiang?area="+area;  
     		};
         }
     }
@@ -170,6 +171,7 @@ function init(){
 	color:white;
 	font-family: "Microsoft YaHei",Arial,sans-serif;
 	padding:5px 5px 5px 5px;
+	border:none;
 }
 </style>
 

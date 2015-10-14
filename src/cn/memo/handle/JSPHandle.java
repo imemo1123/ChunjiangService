@@ -1,8 +1,13 @@
 package cn.memo.handle;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.catalina.manager.JspHelper;
 
 import cn.memo.sql.SQLConnection;
 
@@ -40,4 +45,16 @@ public class JSPHandle {
 			return v;
 		}
 	}
+	public String getDateFmt(String dateString,String rfmt, String fmt) {
+		Date date =new Date();
+		try {
+			date = new SimpleDateFormat(rfmt).parse(dateString);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		SimpleDateFormat df = new SimpleDateFormat(fmt);//设置日期格式
+		return df.format(date);// new Date()为获取当前系统时间
+	}
+	
 }	

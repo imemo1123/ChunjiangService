@@ -3,6 +3,8 @@
  <%
  String rqurl = (String)request.getAttribute("rqurl");
 String jieguo = (String)request.getAttribute("jieguo");
+String intros = (String)request.getAttribute("intros");
+String area = (String)request.getAttribute("area");
 String rst;
 String code="";
 if(jieguo == null){
@@ -157,11 +159,12 @@ function dosome(obj){
 	    var id = "<%=rst%>";
 	    var code = "<%=code%>";
 	    var tel = document.getElementById("tel").value;
+	    var name = document.getElementById("name").value;
 	    if(tel.length != 11){
 			alert("请输入正确的手机号！");
 			return;
 		}
-	    var url="../duijiang?code="+code+"&id="+id+"&tel="+tel;
+	    var url="../duijiang?code="+code+"&id="+id+"&tel="+tel+"&name="+name+"&area=<%=area%>";
 	    XmlHttpRequest = createXmlHttpRequest();
 	    XmlHttpRequest.onreadystatechange=finish;
 	    XmlHttpRequest.open("GET",url,true);
@@ -199,7 +202,9 @@ function ret(){
 
 <div class='blockcell'>
 <i class='icon-warning-sign'></i> 今日奖品：<br/>
-1、中美篮球对抗赛门票一张（每日抽出1张）<br/>
+<%=intros %>
+<!--
+ 1、中美篮球对抗赛门票一张（每日抽出1张）<br/>
 兑奖热线：18974630914；<br/>
 2、大木源漂流门票一张（每日抽出5张）<br/>
 兑奖热线：18974630914；<br/>
@@ -217,8 +222,11 @@ function ret(){
 6、卡卡造型洗剪吹体验券（每日抽出20张）<br/>
 兑奖方式：上门报手机号码即可领取<br/>
 兑奖地址：永州市冷水滩区新步步高二楼（肯德基楼上）。<br/>
-
-
+7、新房装修甲醛检测100元抵扣券（每日抽出20张）<br/>
+  兑奖方式：报个人电话预约。<br/>
+  预约热线：15116608301（艾先生）； <br/>
+  兑奖地址：永州乾祥环保技术服务中心（远志新外滩7栋802室）；
+ -->
 
 </div>
 
@@ -228,7 +236,9 @@ function ret(){
 
 		<div style="margin-bottom:20px ;"><%=intro %></div>
 <div style="clear:both"></div>
+		姓名：<input  id="name" name="name"  value="" >
 		手机：<input  id="tel" name="tel"  value="" >
+		
 	<input id="subt"  type="button" value="提交"  onclick="dosome();" >
 	</div>
 </div>
